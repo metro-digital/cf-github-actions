@@ -22,7 +22,7 @@ DOWNLOAD_URL="https://github.com/gruntwork-io/terragrunt/releases/download/${TG_
 
 TG_BIN_FILE="$RUNNER_TEMP/terragrunt"
 
-curl --silent --fail ${DOWNLOAD_URL} --output $TG_BIN_FILE
+curl --location --silent --fail ${DOWNLOAD_URL} --output $TG_BIN_FILE
 if test $? != "0"; then
    echo "Downloading terragrunt from $DOWNLOAD_URL failed! Please check version parameter"
    exit 1
