@@ -7,6 +7,8 @@ Custom GitHub Actions to deal with Cloud Foundation related topics:
     * [Read/Parse a Service Account key](gcp-read-sa-key)
 * GitHub
     * [Update a repository secret](gh-update-secret)
+* terragrunt
+    * [Setup terragrunt](terragrunt-setup)
 
 ## License
 
