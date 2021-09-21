@@ -24,9 +24,9 @@ steps:
 #### `max_num_keyfiles`
 **Optional** Max number of service account key files allowed to exists.
 > This is checked before creating a new key to ensure there is enough headroom for rotation.
-> 
+>
 > Default: 9
-> 
+>
 > If you run multiple rotations within a narrow time window you should decrease this value.
 
 ## Outputs

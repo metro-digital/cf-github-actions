@@ -21,13 +21,33 @@ function check_program()
     fi
 }
 
+function check_output()
+{
+	if [ -z "${!1}" ] ; then
+		echo "::error::Output \"$1\" not detected"
+		exit 1
+	fi
+}
+
 check_program jq
 check_program base64
+
+
+echo "Base64 decoding key if necessary"
+KEY=$(echo "$SERVICE_ACCOUNT_KEY" | base64 -d)
+if [ $? -ne 0 ] ; then
+	KEY="$SERVICE_ACCOUNT_KEY"
+fi
 
 set -e
 
 echo "Extracting data from key"
-eval "$(echo "$SERVICE_ACCOUNT_KEY" | base64 -d | jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) CLIENT_EMAIL=\(.client_email) CLIENT_ID=\(.client_id)"')"
+eval "$(echo "$KEY" | jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) CLIENT_EMAIL=\(.client_email) CLIENT_ID=\(.client_id)"')"
+
+check_output PROJECT_ID
+check_output PRIVATE_KEY_ID
+check_output CLIENT_EMAIL
+check_output CLIENT_ID
 
 ### Set output project_id
 echo "project_id is: $PROJECT_ID"
