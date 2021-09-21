@@ -28,7 +28,7 @@ def main():
     parser.add_argument('--key', dest="public_key", help="The public key recieved from GitHub API", type=str)
     parser.add_argument('--value', dest="secret_value", help="The value to encrypt", type=str)
     args = parser.parse_args()
-    
+
     # emcrypt secret value
     print(encrypt(args.public_key, args.secret_value))
 
