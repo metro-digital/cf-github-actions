@@ -56,7 +56,7 @@ else
 fi
 
 echo "Trying to encrypt value with public key"
-ENCRYPTED_VALUE="$(python3 $GITHUB_ACTION_PATH/encrypt.py --key $PUBLIC_KEY --value $SECRET_VALUE)"
+ENCRYPTED_VALUE="$(python3 $GITHUB_ACTION_PATH/encrypt.py --key $PUBLIC_KEY --value ${SECRET_VALUE@Q})"
 if [ -z "$ENCRYPTED_VALUE" ]
 then
     echo "::error::Unable to encrypt the value"

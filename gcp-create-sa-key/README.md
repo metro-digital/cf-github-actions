@@ -3,7 +3,7 @@
 Create a new Google Cloud Platform Service Account key for the given Service Account. Assumes a pre configured gcloud CLI.
 So you should execute [google-github-actions/setup-gcloud][1] before running this action.
 
-Returns the newly created keyfile as base64 encoded string.
+Returns the newly created keyfile as single-line json
 
 ## Usage
 
@@ -44,7 +44,7 @@ The Service Account email
 The unique Service Account ID
 
 #### `key_file`
-The newly created Service Account keyfile (base64 encoded)
+The newly created Service Account keyfile (single-line json)
 
 ## License
 

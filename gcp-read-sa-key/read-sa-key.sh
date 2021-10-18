@@ -42,7 +42,7 @@ fi
 set -e
 
 echo "Extracting data from key"
-eval "$(echo "$KEY" | jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) CLIENT_EMAIL=\(.client_email) CLIENT_ID=\(.client_id)"')"
+eval "$(echo ${KEY@Q} | jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) CLIENT_EMAIL=\(.client_email) CLIENT_ID=\(.client_id)"')"
 
 check_output PROJECT_ID
 check_output PRIVATE_KEY_ID

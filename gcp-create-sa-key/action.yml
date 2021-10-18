@@ -17,7 +17,7 @@ description: |-
   Create a new Google Cloud Platform Service Account key for the given
   Service Account. Assumes a pre configured gcloud CLI. So you should
   execute google-github-actions/setup-gcloud before
-  Returns the newly created keyfile as base64 encoded string.
+  Returns the newly created keyfile as single-line json string.
 inputs:
   service_account_email:
     description: |-
@@ -53,7 +53,7 @@ outputs:
     value: ${{ steps.key-generator.outputs.client_id }}
   key_file:
     description: |-
-      new service account keyfile (base64 encoded)
+      new service account keyfile (single-line json)
     value: ${{ steps.key-generator.outputs.key_file }}
 runs:
   using: "composite"
