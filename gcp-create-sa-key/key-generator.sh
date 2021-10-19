@@ -42,7 +42,7 @@ eval "$(jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) 
 
 
 # Ensure the key isn't printed within the logs
-NEW_KEY=$(jq -c key.json)
+NEW_KEY=$(cat key.json | jq -c .)
 echo "::add-mask::$NEW_KEY"
 
 ### Set output project_id
