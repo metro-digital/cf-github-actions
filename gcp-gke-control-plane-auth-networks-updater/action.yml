@@ -1,0 +1,52 @@
+# Copyright 2021 METRO Digital GmbH
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: GKE Control plane authorised networks updater
+description: |-
+  Adds or removes the runners public IP to the control plane authorised networks
+  for a given GKE cluster.
+inputs:
+  project_id:
+    description: |-
+      GKE clusters project ID
+    required: true
+  location:
+    description: |-
+      GKE cluster location (like europe-west1)
+    required: true
+  clustername:
+    description: |-
+      The name of the GKE cluster
+    required: true
+  mode:
+    description: |-
+      Operation mode, can be 'add' or 'remove'
+    required: true
+  description:
+    description: |-
+      Description added to the created /32 entry
+    required: false
+    default: 'GitHub Action runner'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.project_id }}
+    - ${{ inputs.location }}
+    - ${{ inputs.clustername }}
+    - ${{ inputs.mode }}
+    - ${{ inputs.description }}
+branding:
+  color: red
+  icon: eye-off
