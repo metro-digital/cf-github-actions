@@ -59,6 +59,8 @@ echo "Trying to encrypt value with public key"
 TMP_SECRET_FILE="${RUNNER_TEMP}/secret_value"
 echo "${SECRET_VALUE}" > $TMP_SECRET_FILE
 ENCRYPTED_VALUE="$(python3 $GITHUB_ACTION_PATH/encrypt.py --key $PUBLIC_KEY --file $TMP_SECRET_FILE)"
+rm -f $TMP_SECRET_FILE
+
 if [ -z "$ENCRYPTED_VALUE" ]
 then
     echo "::error::Unable to encrypt the value"
