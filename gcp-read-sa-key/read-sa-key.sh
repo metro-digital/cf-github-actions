@@ -46,7 +46,7 @@ set -e
 
 echo "Extracting data from key..."
 TMP_SA_KEY_FILE="${RUNNER_TEMP}/sa-key.json"
-echo "${KEY}" > $TMP_SECRET_FILE
+echo "${KEY}" > $TMP_SA_KEY_FILE
 eval "$(jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) CLIENT_EMAIL=\(.client_email) CLIENT_ID=\(.client_id)"' ${TMP_SA_KEY_FILE})"
 rm -f $TMP_SECRET_FILE
 
