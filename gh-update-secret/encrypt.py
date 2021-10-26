@@ -26,11 +26,14 @@ def encrypt(public_key: str, secret_value: str) -> str:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--key', dest="public_key", help="The public key recieved from GitHub API", type=str)
-    parser.add_argument('--value', dest="secret_value", help="The value to encrypt", type=str)
+    parser.add_argument('--file', dest="secret_file", help="File containing the secret to encrypt", type=str)
     args = parser.parse_args()
 
+    f = open(args.secret_file, "r")
+    secret_value = f.read()
+    
     # emcrypt secret value
-    print(encrypt(args.public_key, args.secret_value))
+    print(encrypt(args.public_key, secret_value))
 
 if __name__ == "__main__":
    main()

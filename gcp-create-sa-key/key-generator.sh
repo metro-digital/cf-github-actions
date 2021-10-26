@@ -23,7 +23,6 @@ function check_program()
 
 check_program jq
 check_program gcloud
-check_program base64
 
 set -e
 
@@ -43,8 +42,8 @@ eval "$(jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) 
 
 
 # Ensure the key isn't printed within the logs
-NEW_KEY_B64=$(base64 -w 0 key.json)
-echo "::add-mask::$NEW_KEY_B64"
+NEW_KEY=$(cat key.json | jq -c .)
+echo "::add-mask::$NEW_KEY"
 
 ### Set output project_id
 echo "project_id is: $PROJECT_ID"
@@ -59,4 +58,4 @@ echo "::set-output name=client_email::$CLIENT_EMAIL"
 echo "client_id is: $CLIENT_ID"
 echo "::set-output name=client_id::$CLIENT_ID"
 ### Set output key_file
-echo "::set-output name=key_file::$NEW_KEY_B64"
+echo "::set-output name=key_file::$NEW_KEY"
