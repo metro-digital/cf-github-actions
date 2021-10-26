@@ -1,12 +1,12 @@
-# GKE Control plane authorised networks updater
-Adds or removes the runners public IP to the control plane authorised networks
-for a given GKE cluster.
+# GKE Control Plane Authorised Networks Updater
+Adds or removes the runner's public IP to or from the control plane authorised
+networks for a given GKE cluster.
 
 ## Usage
 
 Connecting to GKE control plane via kubectl
 ```yaml
-      - name: Allow control plane access for runners IP
+      - name: Allow control plane access from runner IP
         uses: metro-digital/cf-github-actions/gcp-gke-control-plane-auth-networks-updater@v1
         with:
           project_id: example-project-id
@@ -27,19 +27,19 @@ Connecting to GKE control plane via kubectl
           mode: remove
 ```
 
-You should ensure the runner's ip gets removed in any case, even if the pipeline fails.
-In the example above this is ensured by replacing the default implicit `if: ${{ success() }}`
-with `if: ${{ success() || failure() }}`
+You should ensure the runner's IP gets removed in any case, even if the pipeline fails.
+In the example above, this is ensured by replacing the default implicit 
+`if: ${{ success() }}` with `if: ${{ success() || failure() }}`.
 
 ## Inputs
 
 #### `project_id`
-**Required** GKE clusters project ID
+**Required** The ID of the project in which the GKE cluster is located
 
 #### `location`
 **Required** GKE cluster location (like europe-west1)
 
-#### `clustername`
+#### `cluster_name`
 **Required** The name of the GKE cluster
 
 ### `mode`

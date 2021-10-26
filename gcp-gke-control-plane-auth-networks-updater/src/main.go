@@ -31,8 +31,8 @@ import (
 func main() {
 	fmt.Printf("::debug::Arguments: %q\n", os.Args)
 
-	if (len(os.Args) != 5) && (os.Args[4] == "add" && len(os.Args) != 6) {
-		log.Fatal("::error::Unexpected call.\nUsage: gke-updater -- project_id location clustername [add | remove] [displayname]")
+	if (len(os.Args) >= 5) && (os.Args[4] == "add" && len(os.Args) != 6) && (os.Args[4] == "remove" && len(os.Args) >= 5) {
+		log.Fatal("::error::Unexpected call.\nUsage: gke-updater -- project_id location cluster_name [add | remove] [description]")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
@@ -52,8 +52,8 @@ func main() {
 		log.Fatalf("::error::Could not get details about GKE cluster: %v", err)
 	}
 
-	if cluster == nil || cluster.MasterAuthorizedNetworksConfig == nil {
-		log.Fatal("::error::Unexpected value: Cluster or MasterAuthorizedNetworksConfig is nil")
+	if !cluster.MasterAuthorizedNetworksConfig.Enabled {
+		log.Fatal("::error::The given cluster has the master authorized networks feature disabled. Enable it to use this action.")
 	}
 
 	mode := os.Args[4]
@@ -70,9 +70,9 @@ func main() {
 
 	reqJson, err := rb.Update.MarshalJSON()
 	if err != nil {
-		log.Fatalf("Could not decode request", err)
+		log.Fatalf("::error::Could not encode request as JSON", err)
 	}
-	fmt.Printf("::group::Request send to google\n%s\n::endgroup::\n", reqJson)
+	fmt.Printf("::group::Request sent to google\n%s\n::endgroup::\n", reqJson)
 
 	ops, err := containerService.Projects.Locations.Clusters.Update(name, rb).Context(ctx).Do()
 	if err != nil {
@@ -93,6 +93,8 @@ func main() {
 		if status.Status == "DONE" {
 			break
 		}
+		
+		fmt.Println("::notice::Cluster update in progress...")
 	}
 	fmt.Println("::notice::Cluster updated.")
 }
@@ -166,10 +168,10 @@ func getCurrentCidr() string {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalf("::error:: Could not read response body: %v", err)
+		log.Fatalf("::error::Could not read response body: %v", err)
 	}
 
 	currentCidr := string(body) + "/32"
-	fmt.Printf("::notice:: Detected public IP: %s\n", currentCidr)
+	fmt.Printf("::notice::Detected public IP: %s\n", currentCidr)
 	return currentCidr
 }

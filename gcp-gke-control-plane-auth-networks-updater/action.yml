@@ -12,20 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: GKE Control plane authorised networks updater
+name: GKE Control Plane Authorised Networks Updater
 description: |-
-  Adds or removes the runners public IP to the control plane authorised networks
-  for a given GKE cluster.
+  Adds or removes the runner's public IP to or from the control plane authorised
+  networks for a given GKE cluster.
 inputs:
   project_id:
     description: |-
-      GKE clusters project ID
+      The ID of the project in which the GKE cluster is located
     required: true
   location:
     description: |-
       GKE cluster location (like europe-west1)
     required: true
-  clustername:
+  cluster_name:
     description: |-
       The name of the GKE cluster
     required: true
@@ -44,7 +44,7 @@ runs:
   args:
     - ${{ inputs.project_id }}
     - ${{ inputs.location }}
-    - ${{ inputs.clustername }}
+    - ${{ inputs.cluster_name }}
     - ${{ inputs.mode }}
     - ${{ inputs.description }}
 branding:
