@@ -36,12 +36,15 @@ check_program base64
 echo "Base64 decoding key if necessary"
 KEY=$(echo "$SERVICE_ACCOUNT_KEY" | base64 -d 2>/dev/null)
 if [ $? -ne 0 ] ; then
+    echo "Key is not base64 encoded, no need to decode"
 	KEY="$SERVICE_ACCOUNT_KEY"
+else
+    echo "Key was decoded"
 fi
 
 set -e
 
-echo "Extracting data from key"
+echo "Extracting data from key..."
 eval "$(echo ${KEY} | jq -r '@sh "PROJECT_ID=\(.project_id) PRIVATE_KEY_ID=\(.private_key_id) CLIENT_EMAIL=\(.client_email) CLIENT_ID=\(.client_id)"')"
 
 check_output PROJECT_ID
