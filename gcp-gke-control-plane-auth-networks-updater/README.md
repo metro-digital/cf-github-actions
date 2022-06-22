@@ -11,7 +11,7 @@ Connecting to GKE control plane via kubectl
         with:
           project_id: example-project-id
           location: europe-west1
-          clustername: example-cluster
+          cluster_name: example-cluster
           mode: add
 
       - name: run kubectl
@@ -23,7 +23,7 @@ Connecting to GKE control plane via kubectl
         with:
           project_id: example-project-id
           location: europe-west1
-          clustername: example-cluster
+          cluster_name: example-cluster
           mode: remove
 ```
 
