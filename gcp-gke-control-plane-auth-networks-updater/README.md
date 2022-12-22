@@ -1,4 +1,5 @@
 # GKE Control Plane Authorised Networks Updater
+
 Adds or removes the runner's public IP to or from the control plane authorised
 networks for a given GKE cluster.
 
@@ -7,7 +8,7 @@ networks for a given GKE cluster.
 Connecting to GKE control plane via kubectl
 ```yaml
       - name: Allow control plane access from runner IP
-        uses: metro-digital/cf-github-actions/gcp-gke-control-plane-auth-networks-updater@v1
+        uses: metro-digital/cf-github-actions/gcp-gke-control-plane-auth-networks-updater@v2
         with:
           project_id: example-project-id
           location: europe-west1
@@ -16,20 +17,12 @@ Connecting to GKE control plane via kubectl
 
       - name: run kubectl
         run: kubectl get nodes
-
-      - name: Remove runners IP from control plane authorised networks
-        if: ${{ success() || failure() }}
-        uses: metro-digital/cf-github-actions/gcp-gke-control-plane-auth-networks-updater@v1
-        with:
-          project_id: example-project-id
-          location: europe-west1
-          cluster_name: example-cluster
-          mode: remove
 ```
 
-You should ensure the runner's IP gets removed in any case, even if the pipeline fails.
-In the example above, this is ensured by replacing the default implicit 
-`if: ${{ success() }}` with `if: ${{ success() || failure() }}`.
+The action automatically removes the public IP from the cluster's control plane
+authorised networks list again as part of a post-action. Thus, there is no need
+to call the action a second time with the `remove` mode as long as you don't
+disable its post-action.
 
 ## Inputs
 
@@ -43,7 +36,8 @@ In the example above, this is ensured by replacing the default implicit
 **Required** The name of the GKE cluster
 
 ### `mode`
-**Required** Operation mode, can be 'add' or 'remove'
+**Optional** Operation mode, can be 'add' or 'remove'
+> If left empty the default 'add' will be used.
 
 #### `description`
 **Optional** Description added to the created /32 entry

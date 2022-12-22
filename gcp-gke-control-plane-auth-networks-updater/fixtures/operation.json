@@ -1,0 +1,17 @@
+{
+  "clusterConditions": [],
+  "nodepoolConditions": [],
+  "name": "operation-1673016793095-37f920a9",
+  "zone": "europe-west1",
+  "operationType": "UPDATE_CLUSTER",
+  "status": "RUNNING",
+  "statusMessage": "",
+  "selfLink": "https://container.googleapis.com/v1/projects/012345678901/locations/europe-west1/operations/operation-1673016793095-37f920a9",
+  "targetLink": "https://container.googleapis.com/v1/projects/012345678901/locations/europe-west1/clusters/example",
+  "detail": "",
+  "location": "",
+  "startTime": "2023-01-06T14:53:13.095834325Z",
+  "endTime": "2023-01-06T14:53:13.352306051Z",
+  "progress": null,
+  "error": null
+}

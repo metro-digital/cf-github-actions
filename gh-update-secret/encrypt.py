@@ -31,7 +31,7 @@ def main():
 
     f = open(args.secret_file, "r")
     secret_value = f.read()
-    
+
     # emcrypt secret value
     print(encrypt(args.public_key, secret_value))
 
