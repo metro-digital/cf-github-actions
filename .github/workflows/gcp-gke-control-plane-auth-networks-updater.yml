@@ -1,0 +1,63 @@
+---
+# yamllint disable rule:line-length
+name: Test GCP GKE Control Plane Auth Networks Updater
+
+on: # yamllint disable-line rule:truthy
+  pull_request:
+
+permissions:
+  pull-requests: write
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+    working-directory: gcp-gke-control-plane-auth-networks-updater
+
+jobs:
+  test-and-build:
+    name: Test and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          # Limited by the supported version of Node for GitHub Actions. See
+          # action.yaml in project directory.
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build action
+        id: build
+        run: |
+          npm run prepare
+
+          # We should ensure that the working directory does not include any
+          # uncommitted changes which would indicate that the commit was not
+          # properly prepared.
+          status=$(git status --porcelain)
+          if [ -n "$status" ]; then
+            echo "$status"
+            exit 1
+          fi
+
+      - name: Notify if build is not fully committed
+        if: ${{ failure() && steps.build.outcome == 'failure' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "The current commit does not include an up-to-date build of the GCP GKE Control Plane Auth Networks Updater. Please run `npm run prepare` locally and commit all changes from the `dist` directory."
+            })

@@ -32,21 +32,17 @@ inputs:
   mode:
     description: |-
       Operation mode, can be 'add' or 'remove'
-    required: true
+    required: false
+    default: 'add'
   description:
     description: |-
       Description added to the created /32 entry
     required: false
     default: 'GitHub Action runner'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.project_id }}
-    - ${{ inputs.location }}
-    - ${{ inputs.cluster_name }}
-    - ${{ inputs.mode }}
-    - ${{ inputs.description }}
+  using: 'node16'
+  main: 'dist/main/index.js'
+  post: 'dist/post/index.js'
 branding:
   color: red
   icon: eye-off

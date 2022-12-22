@@ -3,7 +3,12 @@ repos:
   rev: 38b88246ccc552bffaaf54259d064beeee434539  # frozen: v4.0.1
   hooks:
     - id: detect-private-key
+      # The built JS files include code that makes this hook think they include
+      # actual credentials which is not the case.
+      exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/(main|post)/index.js$
     - id: end-of-file-fixer
+      exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/
     - id: trailing-whitespace
+      exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/
     - id: mixed-line-ending
       args: ['--fix', 'lf']
