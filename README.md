@@ -2,6 +2,8 @@
 
 Custom GitHub Actions to deal with Cloud Foundation related topics:
 
+- Google Cloud Platform
+  - [GKE Control Plane Authorised Networks Updater](gcp-gke-control-plane-auth-networks-updater)
 - GitHub
   - [Update a repository secret](gh-update-secret)
 - terragrunt
