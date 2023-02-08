@@ -1,14 +1,38 @@
+---
+exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/
+
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: 38b88246ccc552bffaaf54259d064beeee434539  # frozen: v4.0.1
-  hooks:
-    - id: detect-private-key
-      # The built JS files include code that makes this hook think they include
-      # actual credentials which is not the case.
-      exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/(main|post)/index.js$
-    - id: end-of-file-fixer
-      exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/
-    - id: trailing-whitespace
-      exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/
-    - id: mixed-line-ending
-      args: ['--fix', 'lf']
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: f71fa2c1f9cf5cb705f73dffe4b21f7c61470ba9  # frozen: v4.4.0
+    hooks:
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: ["--fix", "lf"]
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: forbid-new-submodules
+      - id: no-commit-to-branch
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: b9e1fd18c1acbaa4b0028196f8925ce4e91970d9  # frozen: v1.29.0
+    hooks:
+      - id: yamllint
+
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 38980559e3a605691d6579f96222c30778e5a69e  # frozen: 3.0.0
+    hooks:
+      - id: script-must-have-extension
+      - id: shellcheck
+      - id: shfmt
+
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 82f84976fc57d5ae61cbf2d457a26a89d4b4eef4  # frozen: 0.7.16
+    hooks:
+      - id: mdformat
+        # Optionally add plugins
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-tables
+          - mdformat-toc

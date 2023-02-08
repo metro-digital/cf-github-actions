@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2021 METRO Digital GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+function check_program() {
+	PRG=$(which "$1" 2>/dev/null)
+	if [ -z "$PRG" ]; then
+		echo "::error::Program \"$1\" not found"
+		exit 1
+	fi
+}
+
+check_program curl
+
 if [[ "${TG_VERSION}" == "latest" ]]; then
-    TG_TAG_NAME=$(curl https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest | jq -r '.tag_name')
+	TG_TAG_NAME=$(curl https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest | jq -r '.tag_name')
 else
-    TG_TAG_NAME="${TG_VERSION}"
+	TG_TAG_NAME="${TG_VERSION}"
 fi
 
 DOWNLOAD_URL="https://github.com/gruntwork-io/terragrunt/releases/download/${TG_TAG_NAME}/terragrunt_linux_amd64"
 
 TG_BIN_FILE="$RUNNER_TEMP/terragrunt"
 
-curl --location --silent --fail ${DOWNLOAD_URL} --output $TG_BIN_FILE
-if test $? != "0"; then
-   echo "Downloading terragrunt from $DOWNLOAD_URL failed! Please check version parameter"
-   exit 1
+if ! curl --location --silent --fail "${DOWNLOAD_URL}" --output "$TG_BIN_FILE"; then
+	echo "Downloading terragrunt from $DOWNLOAD_URL failed! Please check version parameter"
+	exit 1
 fi
 
-chmod +x $TG_BIN_FILE
-echo $RUNNER_TEMP >> $GITHUB_PATH
+chmod +x "$TG_BIN_FILE"
+echo "$RUNNER_TEMP" >>"$GITHUB_PATH"

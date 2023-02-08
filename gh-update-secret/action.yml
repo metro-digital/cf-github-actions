@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+---
 name: Secret Updater
 description: |-
   Updates a repository secret using a personal access token.
@@ -38,7 +38,7 @@ runs:
       env:
         SECRET_NAME: ${{ inputs.name }}
         SECRET_VALUE: ${{ inputs.value }}
-        PERSONAL_ACCESS_TOKEN:  ${{ inputs.pa_token }}
+        PERSONAL_ACCESS_TOKEN: ${{ inputs.pa_token }}
         GITHUB_REPO: ${{ github.repository }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 branding:

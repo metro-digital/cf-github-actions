@@ -6,6 +6,7 @@ Assumes the secret already exists.
 ## Usage
 
 Update an existing GitHub secret
+
 ```yaml
       - name: Update GitHub Secret
         uses: metro-digital/cloud-foundation-actions/gh-update-secret@v1
@@ -18,16 +19,21 @@ Update an existing GitHub secret
 ## Inputs
 
 #### `name`
+
 **Required** Name of the secret to update
 
 #### `value`
+
 **Required** Value to be stored within the secret
+
 > The output of this value is written to the workflow logs under certain cirumstances.
 > If you do not want this value to show up inside the logs, ensure it's marked!
 > See docs how to [add a masking][2]
 
 #### `pa_token`
+
 **Required** Personal access token with access to update repository secret
+
 > For details about PATs see the GitHub docs: [creating a personal access token][1].
 > To modify a secret voa  GitHub API the token requires the `repo` scope.
 
