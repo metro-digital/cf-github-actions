@@ -15,6 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install shfmt
+        run: |
+          curl -L "$(curl -s https://api.github.com/repos/mvdan/sh/releases/latest |
+            grep -o -E -m 1 "https://.+?_linux_amd64")" > shfmt && \
+            chmod +x shfmt && sudo mv shfmt /usr/bin/
+
       - name: pre-commit
         uses: pre-commit/action@v3.0.0
 
