@@ -1,8 +1,7 @@
 ---
-# yamllint disable rule:line-length
 name: pre-commit
 
-on: # yamllint disable-line rule:truthy
+on:  # yamllint disable-line rule:truthy
   pull_request:
 
 permissions:

@@ -1,6 +1,7 @@
+---
 version: 2
 updates:
-  - package-ecosystem: "gomod"
-    directory: "/gcp-gke-control-plane-auth-networks-updater/src"
+  - package-ecosystem: 'npm'
+    directory: '/gcp-gke-control-plane-auth-networks-updater/'
     schedule:
-      interval: "daily"
+      interval: 'daily'

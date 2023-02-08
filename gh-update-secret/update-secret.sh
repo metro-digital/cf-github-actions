@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2021 METRO Digital GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-function check_program()
-{
-    PRG=$(which $1 2>/dev/null)
-    if [ -z "$PRG" ] ; then
-        echo "::error::Program \"$1\" not found"
-        exit 1
-    fi
+function check_program() {
+	PRG=$(which "$1" 2>/dev/null)
+	if [ -z "$PRG" ]; then
+		echo "::error::Program \"$1\" not found"
+		exit 1
+	fi
 }
 
 check_program curl
@@ -37,41 +37,38 @@ URL_SECRET="https://api.github.com/repos/${GITHUB_REPO}/actions/secrets/${SECRET
 # Get private key for secret encryption
 echo "Get PUBLIC_KEY from GitHub API"
 eval "$(curl --silent --show-error --fail \
-        -H "Authorization: token $PERSONAL_ACCESS_TOKEN" \
-        -H "Accept: application/vnd.github.v3+json" \
-        "$URL_PUBLIC_KEY" | jq -r '@sh "PUBLIC_KEY=\(.key) PUBLIC_KEY_ID=\(.key_id)"')"
+	-H "Authorization: token $PERSONAL_ACCESS_TOKEN" \
+	-H "Accept: application/vnd.github.v3+json" \
+	"$URL_PUBLIC_KEY" | jq -r '@sh "PUBLIC_KEY=\(.key) PUBLIC_KEY_ID=\(.key_id)"')"
 
-if [ -z "$PUBLIC_KEY" ]
-then
-    echo "::error::Unable to get PUBLIC_KEY from GitHub"
-    exit 1
-elif [ -z "$PUBLIC_KEY_ID" ]
-then
-    echo "::error::Unable to get PUBLIC_KEY_ID from GitHub"
-    exit 1
+if [ -z "$PUBLIC_KEY" ]; then
+	echo "::error::Unable to get PUBLIC_KEY from GitHub"
+	exit 1
+elif [ -z "$PUBLIC_KEY_ID" ]; then
+	echo "::error::Unable to get PUBLIC_KEY_ID from GitHub"
+	exit 1
 else
-    echo "Got public key details from GitHub API:"
-    echo "PUBLIC_KEY: $PUBLIC_KEY"
-    echo "PUBLIC_KEY_ID: $PUBLIC_KEY_ID"
+	echo "Got public key details from GitHub API:"
+	echo "PUBLIC_KEY: $PUBLIC_KEY"
+	echo "PUBLIC_KEY_ID: $PUBLIC_KEY_ID"
 fi
 
 echo "Trying to encrypt value with public key"
 TMP_SECRET_FILE="${RUNNER_TEMP}/secret_value"
-echo "${SECRET_VALUE}" > $TMP_SECRET_FILE
-ENCRYPTED_VALUE="$(python3 $GITHUB_ACTION_PATH/encrypt.py --key $PUBLIC_KEY --file $TMP_SECRET_FILE)"
-rm -f $TMP_SECRET_FILE
+echo "${SECRET_VALUE}" >"$TMP_SECRET_FILE"
+ENCRYPTED_VALUE="$(python3 "$GITHUB_ACTION_PATH"/encrypt.py --key "$PUBLIC_KEY" --file "$TMP_SECRET_FILE")"
+rm -f "$TMP_SECRET_FILE"
 
-if [ -z "$ENCRYPTED_VALUE" ]
-then
-    echo "::error::Unable to encrypt the value"
-    exit 1
+if [ -z "$ENCRYPTED_VALUE" ]; then
+	echo "::error::Unable to encrypt the value"
+	exit 1
 else
-    echo "Successfully encrypted value"
+	echo "Successfully encrypted value"
 fi
 
 echo "Updating secret..."
 # create json
-cat <<EOJ > secret.json
+cat <<EOJ >secret.json
 {
     "key_id": "$PUBLIC_KEY_ID",
     "encrypted_value": "$ENCRYPTED_VALUE"
@@ -79,8 +76,8 @@ cat <<EOJ > secret.json
 EOJ
 # call GitHub API
 curl \
-    -X PUT -H "Authorization: token $PERSONAL_ACCESS_TOKEN" \
-    --silent --show-error --fail \
-    -H "Content-Type: application/json" \
-    "$URL_SECRET" -d @secret.json
+	-X PUT -H "Authorization: token $PERSONAL_ACCESS_TOKEN" \
+	--silent --show-error --fail \
+	-H "Content-Type: application/json" \
+	"$URL_SECRET" -d @secret.json
 echo "Successfully updated secret"

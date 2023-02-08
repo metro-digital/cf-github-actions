@@ -5,12 +5,14 @@ Installs terragrunt on a GitHub action runner
 ## Usage
 
 Install latest terragrunt version
+
 ```yaml
       - name: Update GitHub Secret
         uses: metro-digital/cloud-foundation-actions/gh-update-secret@v1
 ```
 
 Install specific terragrunt version
+
 ```yaml
       - name: Update GitHub Secret
         uses: metro-digital/cloud-foundation-actions/gh-update-secret@v1
@@ -21,6 +23,7 @@ Install specific terragrunt version
 ## Inputs
 
 #### `version`
+
 **Optional** Install terragrunt in specific version (default: latest)
 
 ## Outputs

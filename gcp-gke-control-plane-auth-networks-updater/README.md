@@ -6,6 +6,7 @@ networks for a given GKE cluster.
 ## Usage
 
 Connecting to GKE control plane via kubectl
+
 ```yaml
       - name: Allow control plane access from runner IP
         uses: metro-digital/cf-github-actions/gcp-gke-control-plane-auth-networks-updater@v2
@@ -27,20 +28,27 @@ disable its post-action.
 ## Inputs
 
 #### `project_id`
+
 **Required** The ID of the project in which the GKE cluster is located
 
 #### `location`
+
 **Required** GKE cluster location (like europe-west1)
 
 #### `cluster_name`
+
 **Required** The name of the GKE cluster
 
 ### `mode`
+
 **Optional** Operation mode, can be 'add' or 'remove'
+
 > If left empty the default 'add' will be used.
 
 #### `description`
+
 **Optional** Description added to the created /32 entry
+
 > If left empty the default 'GitHub Action runner' will be used.
 
 ## Outputs
