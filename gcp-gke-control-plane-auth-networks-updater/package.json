@@ -1,6 +1,6 @@
 {
   "name": "gcp-gke-control-plane-auth-networks-updater",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A GitHub Action to update the control plane authorised networks of a GKE cluster.",
   "main": "main.js",
   "scripts": {
