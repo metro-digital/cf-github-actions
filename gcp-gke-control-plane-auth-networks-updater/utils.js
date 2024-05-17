@@ -50,7 +50,7 @@ async function waitForOperation(client, opId, retries) {
     }
 
     core.info("Cluster not updated yet. Checking again in 1 second...")
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await new Promise(resolve => setTimeout(resolve, 1000 + getJitter(50)))
   }
 
   throw new Error(`Operation did not complete within ${retries} retries.`)
@@ -62,6 +62,10 @@ function logMasterAuthorizedNetworks(networks) {
     core.info(`- ${ network.displayName == "" ? "(not description)" : network.displayName }: ${ network.cidrBlock }`)
   }
   core.endGroup()
+}
+
+function getJitter(max) {
+  return Math.floor(Math.random() * max * 2 - max);
 }
 
 module.exports = {
