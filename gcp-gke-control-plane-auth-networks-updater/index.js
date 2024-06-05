@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { waitForOperation, logMasterAuthorizedNetworks } = require("./utils.js");
+const { waitForOperation, waitForRunningOperations, logMasterAuthorizedNetworks } = require("./utils.js");
 
 async function updateCluster(client, projectId, location, clusterName, mode, description, ip) {
   const [cluster] = await client.getCluster({
@@ -32,6 +32,8 @@ async function updateCluster(client, projectId, location, clusterName, mode, des
   }
 
   logMasterAuthorizedNetworks(cluster.masterAuthorizedNetworksConfig.cidrBlocks)
+
+  waitForRunningOperations(client, `projects/${ projectId }/locations/${ location }`, 20)
 
   const [updateOp] = await client.updateCluster({
     name: clusterName,
