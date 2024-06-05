@@ -33,7 +33,7 @@ async function updateCluster(client, projectId, location, clusterName, mode, des
 
   logMasterAuthorizedNetworks(cluster.masterAuthorizedNetworksConfig.cidrBlocks)
 
-  waitForRunningOperations(client, `projects/${ projectId }/locations/${ location }`, 20)
+  waitForRunningOperations(client, projectId, 20)
 
   const [updateOp] = await client.updateCluster({
     name: clusterName,
