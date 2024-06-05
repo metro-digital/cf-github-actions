@@ -41,6 +41,22 @@ async function getCurrentIP() {
   return await ip.text()
 }
 
+async function waitForRunningOperations(client, location, retries) {
+  for (let i = 0; i < retries; i++) {
+    const [operations] = await client.listOperations({ parent: location })
+    const runningOps = operations.filter(op => op.status === OPERATION_STATUS[OPERATION_STATUS.RUNNING])
+    if (runningOps.length === 0) {
+      core.info("No running operations found.")
+      return
+    }
+
+    core.info("Waiting for running operations to complete...")
+    await new Promise(resolve => setTimeout(resolve, 1000))
+  }
+
+  throw new Error(`Running operations did not complete within ${retries} retries.`)
+}
+
 async function waitForOperation(client, opId, retries) {
   for (let i = 0; i < retries; i++) {
     const [op] = await client.getOperation({ name: opId})
@@ -67,6 +83,7 @@ function logMasterAuthorizedNetworks(networks) {
 module.exports = {
   parseInputs: parseInputs,
   waitForOperation: waitForOperation,
+  waitForRunningOperations: waitForRunningOperations,
   getCurrentIP: getCurrentIP,
   logMasterAuthorizedNetworks: logMasterAuthorizedNetworks
 }
