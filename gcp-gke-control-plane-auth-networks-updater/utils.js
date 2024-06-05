@@ -50,8 +50,8 @@ async function waitForRunningOperations(client, location, retries) {
       return
     }
 
-    core.info("Waiting for running operations to complete...")
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    core.info("Waiting for running operations to complete. Checking again in around 1 second...")
+    await new Promise(resolve => setTimeout(resolve, 1000 + getJitter(50)))
   }
 
   throw new Error(`Running operations did not complete within ${retries} retries.`)
@@ -65,7 +65,7 @@ async function waitForOperation(client, opId, retries) {
       return
     }
 
-    core.info("Cluster not updated yet. Checking again in 1 second...")
+    core.info("Cluster not updated yet. Checking again in around 1 second...")
     await new Promise(resolve => setTimeout(resolve, 1000 + getJitter(50)))
   }
 
