@@ -49,7 +49,10 @@ async function waitForRunningOperations(client, location, retries) {
     if (runningOps.length === 0) {
       core.info("No running operations found.")
       return
+    } else {
+      core.info("Found " + runningOps.length + " running operations.")
     }
+
 
     core.info("Waiting for running operations to complete. Checking again in around 1 second...")
     await new Promise(resolve => setTimeout(resolve, 1000 + getJitter(50)))
