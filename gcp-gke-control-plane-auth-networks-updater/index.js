@@ -32,16 +32,23 @@ async function updateCluster(client, projectId, location, clusterName, mode, des
   }
 
   logMasterAuthorizedNetworks(cluster.masterAuthorizedNetworksConfig.cidrBlocks)
-  waitForRunningOperations(client, `projects/${ projectId }/locations/${ location }`, 20)
 
-  const [updateOp] = await client.updateCluster({
-    name: clusterName,
-    update: {
-      desiredMasterAuthorizedNetworksConfig: cluster.masterAuthorizedNetworksConfig
+  let triesCounter = 0;
+  while (triesCounter < 2) {
+    try {
+      const [updateOp] = await client.updateCluster({
+        name: clusterName,
+        update: {
+          desiredMasterAuthorizedNetworksConfig: cluster.masterAuthorizedNetworksConfig
+        }
+      })
+      waitForOperation(client, `projects/${ projectId }/locations/${ location }/operations/${ updateOp.name }`, 20)
+      break
+    } catch (err) {
+        waitForRunningOperations(client, `projects/${ projectId }/locations/${ location }`, 20)
     }
-  })
-
-  waitForOperation(client, `projects/${ projectId }/locations/${ location }/operations/${ updateOp.name }`, 20)
+    triesCounter++
+  }
 }
 
 module.exports = {
