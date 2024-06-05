@@ -42,9 +42,10 @@ async function getCurrentIP() {
 }
 
 async function waitForRunningOperations(client, location, retries) {
+
   for (let i = 0; i < retries; i++) {
-    const [operations] = await client.listOperations({ parent: location })
-    const runningOps = operations.filter(op => op.status === OPERATION_STATUS[OPERATION_STATUS.RUNNING])
+    const [resp] = await client.listOperations()
+    const runningOps = resp.operations.filter(op => op.status === OPERATION_STATUS[OPERATION_STATUS.RUNNING])
     if (runningOps.length === 0) {
       core.info("No running operations found.")
       return
