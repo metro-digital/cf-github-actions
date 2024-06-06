@@ -8,6 +8,12 @@ describe("update cluster", () => {
 
   const mockClient = {
     getCluster: jest.fn(), // set on every test
+    listOperations: jest.fn().mockResolvedValue([{
+      operations: [{
+        ...op,
+        status: 'DONE'
+      }]
+    }]),
     getOperation: jest.fn().mockResolvedValue([{
       ...op,
       status: 'DONE'
