@@ -41,6 +41,22 @@ async function getCurrentIP() {
   return await ip.text()
 }
 
+async function waitForRunningOperations(client, location, retries) {
+  for (let i = 0; i < retries; i++) {
+    const [resp] = await client.listOperations({parent: location})
+    const runningOps = resp.operations.filter(op => op.status === OPERATION_STATUS[OPERATION_STATUS.RUNNING])
+    if (runningOps.length === 0) {
+      core.info("No running operations found.")
+      return
+    }
+
+    core.info("Waiting for running operations to complete. Checking again in around 1 second...")
+    await new Promise(resolve => setTimeout(resolve, 1000 + getJitter(50)))
+  }
+
+  throw new Error(`Running operations did not complete within ${retries} retries.`)
+}
+
 async function waitForOperation(client, opId, retries) {
   for (let i = 0; i < retries; i++) {
     const [op] = await client.getOperation({ name: opId})
@@ -49,8 +65,8 @@ async function waitForOperation(client, opId, retries) {
       return
     }
 
-    core.info("Cluster not updated yet. Checking again in 1 second...")
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    core.info("Cluster not updated yet. Checking again in around 1 second...")
+    await new Promise(resolve => setTimeout(resolve, 1000 + getJitter(50)))
   }
 
   throw new Error(`Operation did not complete within ${retries} retries.`)
@@ -64,9 +80,24 @@ function logMasterAuthorizedNetworks(networks) {
   core.endGroup()
 }
 
+function calculateBackoff(attempt, maximum_backoff) {
+  const random_number_milliseconds = Math.floor(Math.random() * 1000);
+  const exponential_backoff = Math.pow(2, attempt) * 1000;
+  const backoff_with_jitter = exponential_backoff + random_number_milliseconds;
+  const result = Math.min(backoff_with_jitter, maximum_backoff);
+
+  return result;
+}
+
+function getJitter(max) {
+  return Math.floor(Math.random() * max * 2 - max);
+}
+
 module.exports = {
   parseInputs: parseInputs,
   waitForOperation: waitForOperation,
+  waitForRunningOperations: waitForRunningOperations,
+  calculateBackoff: calculateBackoff,
   getCurrentIP: getCurrentIP,
   logMasterAuthorizedNetworks: logMasterAuthorizedNetworks
 }

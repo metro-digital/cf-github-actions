@@ -1,6 +1,6 @@
 jest.mock('node-fetch');
 
-const { parseInputs, getCurrentIP, waitForOperation } = require("./utils.js");
+const { parseInputs, getCurrentIP, waitForOperation, calculateBackoff } = require("./utils.js");
 const fetch = require('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
 const mockOperation = require("./fixtures/operation.json");
@@ -127,3 +127,18 @@ describe("wait for cluster update operation", () => {
     });
   })
 })
+
+describe("calculateBackoff", () => {
+  test("should return a value within the expected range", () => {
+    const maxBackoff = 32000; // Maximum backoff time in milliseconds
+    const attempts = 2; // Number of attempts
+
+    const result = calculateBackoff(attempts, maxBackoff);
+
+    // The minimum possible value is 2^attempts, the maximum is either maxBackoff or 2^attempts + 1000, whichever is smaller
+    const minExpected = Math.pow(2, attempts) * 1000;
+
+    expect(result).toBeGreaterThanOrEqual(minExpected);
+    expect(result).toBeLessThanOrEqual(maxBackoff);
+  });
+});
