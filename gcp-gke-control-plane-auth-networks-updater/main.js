@@ -30,6 +30,7 @@ async function run() {
 
     await updateCluster(client, projectId, location, clusterName, mode, description, ip)
   } catch (e) {
+    core.error(e.message)
     core.setFailed(e)
   }
 }
