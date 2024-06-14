@@ -35,6 +35,7 @@ async function run() {
 
     await updateCluster(client, projectId, location, clusterName, "remove", description, ip)
   } catch (e) {
+    core.error(e.message)
     core.setFailed(e)
   }
 }
