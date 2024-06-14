@@ -33,7 +33,7 @@ async function run() {
 
     const clusterName = `projects/${ projectId }/locations/${ location }/clusters/${ clusterId }`
 
-    updateCluster(client, projectId, location, clusterName, "remove", description, ip)
+    await updateCluster(client, projectId, location, clusterName, "remove", description, ip)
   } catch (e) {
     core.setFailed(e)
   }

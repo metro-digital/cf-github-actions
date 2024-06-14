@@ -19,7 +19,7 @@ async function updateCluster(client, projectId, location, clusterName, mode, des
   const maxAttempts = 10
   while (triesCounter < maxAttempts) {
     try {
-      waitForRunningOperations(client, `projects/${ projectId }/locations/${ location }`, 5)
+      await waitForRunningOperations(client, `projects/${ projectId }/locations/${ location }`, 5)
       const [cluster] = await client.getCluster({
         name: clusterName,
       })
@@ -44,7 +44,7 @@ async function updateCluster(client, projectId, location, clusterName, mode, des
           desiredMasterAuthorizedNetworksConfig: cluster.masterAuthorizedNetworksConfig
         }
       })
-      waitForOperation(client, `projects/${ projectId }/locations/${ location }/operations/${ updateOp.name }`, 20)
+      await waitForOperation(client, `projects/${ projectId }/locations/${ location }/operations/${ updateOp.name }`, 20)
       break
     } catch (err) {
       console.log(err)
