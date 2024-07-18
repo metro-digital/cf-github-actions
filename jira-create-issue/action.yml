@@ -1,0 +1,59 @@
+# Copyright 2021 METRO Digital GmbH
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+name: Jira Issue Creator
+description: |-
+  Create a Jira issue using an API token.
+inputs:
+  base_url:
+    description: Jira base URL
+    required: true
+  user_email:
+    description: Jira user email
+    required: true
+  api_token:
+    description: Jira API token
+    required: true
+  description:
+    description: Issue description
+    required: true
+  issue_type:
+    description: Issue type code
+    required: true
+  priority:
+    description: Priority code
+    required: true
+  project:
+    description: Project code
+    required: true
+  reporter:
+    description: Reporter code
+    required: true
+  summary:
+    description: Issue summary
+    required: true
+  labels:
+    default: ''
+    description: Labels
+    required: false
+  timeout:
+    default: '15000'
+    description: Timeout
+    required: false
+runs:
+  using: 'node20'
+  main: 'create_issue.js'
+branding:
+  color: red
+  icon: eye-off

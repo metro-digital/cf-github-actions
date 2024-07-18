@@ -1,0 +1,38 @@
+on:
+  push:
+    branches:
+      - CF-1337
+
+jobs:
+  test-custom-github-action:
+    runs-on: ubuntu-latest
+    name: Test custom GitHub Action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/396535332966/locations/global/workloadIdentityPools/github-actions/providers/github
+          service_account: ram-workflows@metro-cf-services-prod.iam.gserviceaccount.com
+
+      - id: secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            password:metro-cf-services-prod/notifier_jira_user_api_key
+
+      - name: Custom GitHub Action
+        uses: ./jira-create-issue/
+        with:
+          base_url: "https://metrodigital.atlassian.net"
+          user_email: "metro-cf-notificatio@metrosystems.net"
+          api_token: ${{ steps.secrets.outputs.password }}
+          description: "[TEST] This issue has been created via custom GitHub Action script"
+          issue_type: "10005"
+          priority: "10004"
+          project: "10645"
+          reporter: "712020:db588aff-0559-48a0-8816-e52bb2f526e6"
+          summary: "[TEST] Custom GitHub Action"
+          labels: "GitHub\nRAM\nAotW"
