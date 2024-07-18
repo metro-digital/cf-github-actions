@@ -7,6 +7,9 @@ jobs:
   test-custom-github-action:
     runs-on: ubuntu-latest
     name: Test custom GitHub Action
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
