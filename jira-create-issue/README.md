@@ -8,7 +8,7 @@ Create a Jira issue
 
 ```yaml
       - name: Create Jira issue
-        uses: metro-digital/cloud-foundation-actions/jira-create-issue@v1
+        uses: metro-digital/cf-github-actions/jira-create-issue@v1
         with:
           base_url: "..."
           user_email: "..."
