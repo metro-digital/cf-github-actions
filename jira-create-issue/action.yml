@@ -37,9 +37,9 @@ inputs:
   project:
     description: Project code
     required: true
-#  reporter:
-#    description: Reporter code
-#    required: true
+  reporter:
+    description: Reporter code
+    required: true
   summary:
     description: Issue summary
     required: true
