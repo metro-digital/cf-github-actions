@@ -9,7 +9,7 @@ try {
   const issueType = core.getInput('issue_type', {required: false});
   const priority = core.getInput('priority', {required: false});
   const project = core.getInput('project', {required: false});
-  const reporter = core.getInput('reporter', {required: false});
+  //const reporter = core.getInput('reporter', {required: false});
   const summary = core.getInput('summary', {required: true});
   const labels = core.getMultilineInput('labels', {required: false});
   const timeout = core.getInput('timeout', {required: false});
@@ -20,7 +20,7 @@ try {
         issuetype: { id: issueType },
         priority: { id: priority },
         project: { id: project },
-        reporter: { id: reporter },
+        //reporter: { id: reporter },
         summary: summary,
         labels: labels
     }
