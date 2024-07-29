@@ -1,5 +1,5 @@
 ---
-exclude: ^gcp-gke-control-plane-auth-networks-updater/dist/
+exclude: ^(gcp-gke-control-plane-auth-networks-updater|jira-create-issue)/dist/
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
