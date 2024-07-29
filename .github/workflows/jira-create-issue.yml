@@ -1,5 +1,5 @@
 ---
-name: Test GCP GKE Control Plane Auth Networks Updater
+name: Test Create Jira issue custom GitHub Action
 
 on:  # yamllint disable-line rule:truthy
   pull_request:
@@ -11,7 +11,7 @@ permissions:
 defaults:
   run:
     shell: bash
-    working-directory: gcp-gke-control-plane-auth-networks-updater
+    working-directory: jira-create-issue
 
 jobs:
   test-and-build:
@@ -28,9 +28,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Run tests
-        run: npm test
 
       - name: Build action
         id: build
@@ -56,5 +53,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: "The current commit does not include an up-to-date build of the GCP GKE Control Plane Auth Networks Updater. Please run `npm run prepare` locally and commit all changes from the `dist` directory."
+              body: "The current commit does not include an up-to-date build of the Jira create issue custom GitHub Action. Please run `npm run prepare` locally and commit all changes from the `dist` directory."
             })
