@@ -46,7 +46,7 @@ try {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    signal: AbortSignal.timeout(timeout),
+    signal: AbortSignal.timeout(Number(timeout)),
     body: JSON.stringify(bodyData)
   }).then(response => {
     console.log(
