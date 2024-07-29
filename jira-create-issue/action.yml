@@ -48,7 +48,7 @@ inputs:
     description: Labels
     required: false
   timeout:
-    default: '15000'
+    default: 15000
     description: Timeout (in milliseconds)
     required: false
 runs:
