@@ -69,7 +69,7 @@ Create a Jira issue
 
 #### `timeout`
 
-**Optional** Timeout
+**Optional** Timeout (in milliseconds)
 
 ## Outputs
 

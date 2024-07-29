@@ -1,4 +1,4 @@
-# Copyright 2021 METRO Digital GmbH
+# Copyright 2024 METRO Digital GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -49,11 +49,11 @@ inputs:
     required: false
   timeout:
     default: '15000'
-    description: Timeout
+    description: Timeout (in milliseconds)
     required: false
 runs:
   using: 'node20'
-  main: 'create_issue.js'
+  main: 'dist/main/index.js'
 branding:
   color: red
-  icon: eye-off
+  icon: check-square

@@ -1,6 +1,36 @@
 {
+  "name": "jira-create-issue",
+  "version": "3.0.0",
+  "description": "A GitHub Action to create a Jira issue.",
+  "main": "main.js",
+  "scripts": {
+    "prepare": "ncc build -m main.js -o dist/main --license licenses.txt",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metro-digital/cf-github-actions.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "GKE",
+    "IP",
+    "Allowlist",
+    "Control",
+    "Plane"
+  ],
+  "author": "METRO.digital",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/metro-digital/cf-github-actions/issues"
+  },
+  "homepage": "https://github.com/metro-digital/cf-github-actions#readme",
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^9.8.0"
+  },
   "dependencies": {
-    "@actions/core": "^1.10.1",
-    "node-fetch": "^3.3.2"
+    "@actions/core": "^1.10.1"
   }
 }
