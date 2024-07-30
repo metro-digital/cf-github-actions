@@ -14,11 +14,8 @@
   "keywords": [
     "GitHub",
     "Actions",
-    "GKE",
-    "IP",
-    "Allowlist",
-    "Control",
-    "Plane"
+    "Jira",
+    "Issue"
   ],
   "author": "METRO.digital",
   "license": "Apache-2.0",

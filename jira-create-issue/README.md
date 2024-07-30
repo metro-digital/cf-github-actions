@@ -1,4 +1,4 @@
-# Create Jira issue
+# Create Jira Issue
 
 Creates a Jira issue using an [API token][1].
 
