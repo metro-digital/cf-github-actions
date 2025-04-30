@@ -33,12 +33,18 @@ function parseInputs() {
 }
 
 async function getCurrentIP() {
-  const ip = await fetch("https://ifconfig.me/ip")
-  if (!ip.ok) {
-    throw new Error(`ifconfig.me returned non-expected status code: ${ip.status}.`)
-  }
+    const ifConfigIP = await fetch("https://ifconfig.me/ip")
+    if (!ifConfigIP.ok) {
+      core.info(`ifconfig.me failed with status code ${ifConfigIP.status}. Trying ipv4.icanhazip.com...`)
+      const ip = await fetch("https://ipv4.icanhazip.com")
+      if (!ip.ok) {
+        throw new Error(`ifconfig.me failed with status code: ${ifConfigIP.status} and ipv4.icanhazip.com failed with status code: ${ip.status}.`)
+      }
 
-  return await ip.text()
+      return await ip.text()
+    }
+
+    return await ifConfigIP.text()
 }
 
 async function waitForRunningOperations(client, location, retries) {
