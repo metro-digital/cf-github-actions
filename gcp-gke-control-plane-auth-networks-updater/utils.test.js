@@ -1,9 +1,11 @@
-jest.mock('node-fetch');
+const fetchMock = require('jest-fetch-mock');
+fetchMock.enableMocks();
 
 const { parseInputs, getCurrentIP, waitForOperation, calculateBackoff } = require("./utils.js");
 const fetch = require('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
 const mockOperation = require("./fixtures/operation.json");
+
 
 describe("parse inputs", () => {
   const originalEnv = process.env
@@ -46,6 +48,10 @@ describe("parse inputs", () => {
 })
 
 describe("get current public IP", () => {
+  beforeEach(() => {
+    fetch.resetMocks();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   })
@@ -60,17 +66,49 @@ describe("get current public IP", () => {
     expect(ip).toBe('127.0.0.1')
   })
 
-  test('IP lookup fails', async () => {
-    fetch.mockReturnValue(Promise.resolve(new Response('', {
-      status: 500
-    })))
+  test('IP lookup fails with ifconfig.me and fallback is successful', async () => {
+    fetch.mockImplementation((url) => {
+      if (url === 'https://ifconfig.me/ip') {
+        return Promise.resolve(new Response('', {
+          status: 500
+        }));
+      } else if (url === 'https://ipv4.icanhazip.com') {
+        return Promise.resolve(new Response('127.0.0.1'));
+      } else {
+        return Promise.reject(new Error('Unhandled URL: ' + url));
+      }
+    });
+
+    const ip = await getCurrentIP()
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveBeenCalledWith('https://ifconfig.me/ip');
+    expect(fetch).toHaveBeenCalledWith('https://ipv4.icanhazip.com');
+    expect(ip).toBe('127.0.0.1');
+  });
+
+  test('IP lookup fails for fallback also', async () => {
+    fetch.mockImplementation((url) => {
+      if (url === 'https://ifconfig.me/ip') {
+        return Promise.resolve(new Response('', {
+          status: 500
+        }));
+      } else if (url === 'https://ipv4.icanhazip.com') {
+        return Promise.resolve(new Response('', {
+          status: 500
+        }));
+      } else {
+        return Promise.reject(new Error('Unhandled URL: ' + url));
+      }
+    });
 
     await expect(getCurrentIP())
       .rejects
-      .toThrow('ifconfig.me returned non-expected status code: 500.');
+      .toThrow('ifconfig.me failed with status code: 500 and ipv4.icanhazip.com failed with status code: 500.');
 
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch).toHaveBeenCalledWith('https://ifconfig.me/ip');
+    expect(fetch).toHaveBeenCalledWith('https://ipv4.icanhazip.com');
   });
 })
 
