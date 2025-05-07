@@ -33,6 +33,6 @@ repos:
       - id: mdformat
         # Optionally add plugins
         additional_dependencies:
-          - mdformat-gfm
+          - mdformat-gfm==0.3.5
           - mdformat-tables
           - mdformat-toc
