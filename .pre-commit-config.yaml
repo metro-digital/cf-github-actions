@@ -28,7 +28,7 @@ repos:
       - id: shfmt
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: 82f84976fc57d5ae61cbf2d457a26a89d4b4eef4  # frozen: 0.7.16
+    rev: 6c1288142f351100fb24babd44aedd20e1599e99 # frozen: 0.7.17
     hooks:
       - id: mdformat
         # Optionally add plugins
