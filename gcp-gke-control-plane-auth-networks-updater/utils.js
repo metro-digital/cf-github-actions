@@ -41,7 +41,7 @@ async function getCurrentIP() {
         throw new Error(`ifconfig.me failed with status code: ${ifConfigIP.status} and ipv4.icanhazip.com failed with status code: ${ip.status}.`)
       }
 
-      return await ip.text()
+      return (await ip.text()).trim();
     }
 
     return await ifConfigIP.text()
