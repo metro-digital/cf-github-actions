@@ -14,7 +14,7 @@
 
 const core = require('@actions/core');
 const container = require('@google-cloud/container');
-const { parseInputs, getCurrentIP } = require("./utils.js");
+const { parseInputs,    getCurrentIP } = require("./utils.js");
 const { updateCluster } = require("./index.js")
 
 async function run() {

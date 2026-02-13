@@ -3,7 +3,7 @@ exclude: ^(gcp-gke-control-plane-auth-networks-updater|jira-create-issue)/dist/
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: f71fa2c1f9cf5cb705f73dffe4b21f7c61470ba9  # frozen: v4.4.0
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
     hooks:
       - id: detect-private-key
       - id: end-of-file-fixer
@@ -16,7 +16,7 @@ repos:
       - id: no-commit-to-branch
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: b9e1fd18c1acbaa4b0028196f8925ce4e91970d9  # frozen: v1.29.0
+    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530  # frozen: v1.38.0
     hooks:
       - id: yamllint
 
@@ -28,11 +28,10 @@ repos:
       - id: shfmt
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: 6c1288142f351100fb24babd44aedd20e1599e99 # frozen: 0.7.17
+    rev: 2d496dbc18e31b83a1596685347ffe0b6041daf0  # frozen: 1.0.0
     hooks:
       - id: mdformat
         # Optionally add plugins
         additional_dependencies:
-          - mdformat-gfm==0.3.5
-          - mdformat-tables
+          - mdformat-gfm
           - mdformat-toc

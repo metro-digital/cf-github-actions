@@ -35,7 +35,7 @@ Update an existing GitHub secret
 **Required** Personal access token with access to update repository secret
 
 > For details about PATs see the GitHub docs: [creating a personal access token][1].
-> To modify a secret voa  GitHub API the token requires the `repo` scope.
+> To modify a secret voa GitHub API the token requires the `repo` scope.
 
 ## Outputs
 
