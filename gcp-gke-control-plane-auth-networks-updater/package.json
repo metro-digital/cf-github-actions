@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/metro-digital/cf-github-actions#readme",
   "devDependencies": {
-    "@vercel/ncc": "^0.38.4",
+    "@vercel/ncc": "^0.44.1",
     "eslint": "^10.6.0",
     "jest": "^30.4.2",
     "jest-fetch-mock": "^3.0.3"
